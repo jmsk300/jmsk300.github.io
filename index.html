@@ -1,3 +1,303 @@
-<html>
-<h1>정진호 홍페이지</h1>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>강태공의 낚시 일기 | Angler's Life</title>
+    <style>
+        :root {
+            --primary-color: #2b5c8f;
+            --secondary-color: #e3f2fd;
+            --text-color: #333;
+            --accent-color: #ff6b6b;
+            --bg-color: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, "Malgun Gothic";
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            height: 400px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        header p {
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        }
+
+        nav {
+            background-color: var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #1d3e63;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Profile Section */
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary-color);
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Gear Section */
+        .gear-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .gear-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .gear-item span {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #222;
+            color: #888;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile {
+                flex-direction: column;
+                text-align: center;
+            }
+            nav ul {
+                flex-direction: column;
+            }
+            nav ul li a {
+                text-align: center;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>인생은 낚시다: 강태공의 조행기</h1>
+        <p>물가를 찾아 떠나는 설렘, 손맛 끝에 느끼는 최고의 카타르시스</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">앵글러 소개</a></li>
+            <li><a href="#records">대물 조행기</a></li>
+            <li><a href="#gear">나의 장비 세팅</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=300&q=80" alt="낚시꾼 프로필 사진">
+                <div>
+                    <h3>안녕하세요! 주말마다 물가로 향하는 낚시광입니다.</h3>
+                    <p>민물 루어낚시부터 바다 선상낚시, 갯바위 찌낚시까지 가리지 않고 물고기가 있는 곳이라면 어디든 달려갑니다. 자연이 주는 고요함 속에서 찌를 바라보는 시간, 그리고 짜릿한 드랙음을 울리는 대물과의 한판 승부를 가장 사랑합니다.</p>
+                    <p><strong>선호 장르:</strong> 배스 루어 낚시, 도시어부 스타일 바다 선상(주꾸미, 광어 다운샷)</p>
+                </div>
+            }
+            </div>
+        </section>
+
+        <!-- Records Section -->
+        <section id="records">
+            <h2>최근 조행기 (출조 기록)</h2>
+            <div class="gallery-grid">
+                
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=500&q=80" alt="짜릿한 배스 낚시">
+                    <div class="card-content">
+                        <span class="badge">민물 루어</span>
+                        <h3>가평 자라섬 배스 히트! (45cm)</h3>
+                        <p>이른 새벽 프리리그 채비로 바닥을 천천히 긁어오다 텅- 하는 강한 바이트를 받았습니다. 묵직한 손맛을 안겨준 올해 마수걸이 짜릿한 런커급 배스입니다.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1615887023516-9b6bcd559e87?auto=format&fit=crop&w=500&q=80" alt="바다 선상 낚시">
+                    <div class="card-content">
+                        <span class="badge">바다 선상</span>
+                        <h3>안면도 광어 다운샷 만쿨 달성</h3>
+                        <p>오랜만에 동호회 회원들과 함께 출조했습니다. 핑크색 웜에 반응이 좋았고, 6짜 광어를 포함해 인당 10수 이상 묵직하게 손맛을 보고 돌아왔습니다.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1541829032128-fb4ca47c0eb6?auto=format&fit=crop&w=500&q=80" alt="평화로운 밤낚시">
+                    <div class="card-content">
+                        <span class="badge">민물 대물</span>
+                        <h3>충주호 밤낚시, 토종붕어 월척</h3>
+                        <p>새벽 2시경, 드디어 기다리던 찌올림이 시작되었습니다. 중후하게 솟구치는 찌를 보며 챔질 성공! 황금빛 찬란한 35cm 토종붕어를 만났습니다.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Gear Section -->
+        <section id="gear">
+            <h2>나의 주력 장비 (My Gear)</h2>
+            <div class="gear-list">
+                <div class="gear-item">
+                    <span>🎣</span>
+                    <h3>루어 로드</h3>
+                    <p>JS컴퍼니 빅쏘드 B2 / 스피닝 L대 & 베이트 MH대 조합으로 범용성 극대화</p>
+                </div>
+                <div class="gear-item">
+                    <span>⚙️</span>
+                    <h3>주력 릴</h3>
+                    <p>시마노 스텔라 C2000S / 도요 엔지니어링 베이트릴 (우핸들)</p>
+                </div>
+                <div class="gear-item">
+                    <span>🧵</span>
+                    <h3>라인 & 채비</h3>
+                    <p>합사 1.2호 / 카본 쇼크리더 12lb, 주로 프리리그와 미노우 운용</p>
+                </div>
+                <div class="gear-item">
+                    <span>🎒</span>
+                    <h3>태클박스</h3>
+                    <p>메이호 VS-7070 (커스텀 로드 거치대 장착 완료)</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 강태공의 낚시 일기. All Rights Reserved. 낚시는 스포츠이자 힐링입니다.</p>
+    </footer>
+
+</body>
 </html>

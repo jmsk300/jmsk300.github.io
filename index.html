@@ -1,303 +1,946 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>강태공의 낚시 일기 | Angler's Life</title>
-    <style>
-        :root {
-            --primary-color: #2b5c8f;
-            --secondary-color: #e3f2fd;
-            --text-color: #333;
-            --accent-color: #ff6b6b;
-            --bg-color: #f8f9fa;
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
         }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, "Malgun Gothic";
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        header {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
-            height: 400px;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-content: center;
-            text-align: center;
-            padding: 0 20px;
+        .glass-header {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
         }
 
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        .dark .glass-header {
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
         }
 
-        header p {
-            font-size: 1.3rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+        .card-hover {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        nav {
-            background-color: var(--primary-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 24px -10px rgba(2, 132, 199, 0.25);
         }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-
-        nav ul li a {
-            display: block;
-            color: white;
-            padding: 15px 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
-
-        nav ul li a:hover {
-            background-color: #1d3e63;
+        .dark ::-webkit-scrollbar-track {
+            background: #0f172a;
         }
-
-        .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 4px;
         }
-
-        section {
-            margin-bottom: 60px;
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-
-        /* Profile Section */
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .profile img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--secondary-color);
-        }
-
-        /* Gallery Grid */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-content h3 {
-            margin-top: 0;
-            color: var(--primary-color);
-        }
-
-        .badge {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        /* Gear Section */
-        .gear-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .gear-item {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--primary-color);
-        }
-
-        .gear-item span {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        footer {
-            background-color: #222;
-            color: #888;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            .profile {
-                flex-direction: column;
-                text-align: center;
-            }
-            nav ul {
-                flex-direction: column;
-            }
-            nav ul li a {
-                text-align: center;
-                padding: 10px;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col pt-12">
 
-    <header>
-        <h1>인생은 낚시다: 강태공의 조행기</h1>
-        <p>물가를 찾아 떠나는 설렘, 손맛 끝에 느끼는 최고의 카타르시스</p>
-    </header>
-
-    <nav>
-        <ul>
-            <li><a href="#about">앵글러 소개</a></li>
-            <li><a href="#records">대물 조행기</a></li>
-            <li><a href="#gear">나의 장비 세팅</a></li>
-        </ul>
-    </nav>
-
-    <div class="container">
-        
-        <!-- About Section -->
-        <section id="about">
-            <h2>About Me</h2>
-            <div class="profile">
-                <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=300&q=80" alt="낚시꾼 프로필 사진">
-                <div>
-                    <h3>안녕하세요! 주말마다 물가로 향하는 낚시광입니다.</h3>
-                    <p>민물 루어낚시부터 바다 선상낚시, 갯바위 찌낚시까지 가리지 않고 물고기가 있는 곳이라면 어디든 달려갑니다. 자연이 주는 고요함 속에서 찌를 바라보는 시간, 그리고 짜릿한 드랙음을 울리는 대물과의 한판 승부를 가장 사랑합니다.</p>
-                    <p><strong>선호 장르:</strong> 배스 루어 낚시, 도시어부 스타일 바다 선상(주꾸미, 광어 다운샷)</p>
+    <!-- Sticky Audio Player Bar (Top) -->
+    <div id="bgmBar" class="fixed top-0 left-0 right-0 z-50 bg-slate-900 text-white border-b border-slate-800 shadow-lg px-4 py-2 flex items-center justify-between gap-4 text-xs md:text-sm">
+        <div class="flex items-center gap-3 overflow-hidden">
+            <button id="bgmPlayBtn" onclick="togglePlay()" class="w-8 h-8 rounded-full bg-sky-500 hover:bg-sky-400 text-white flex items-center justify-center shrink-0 transition-all shadow-md">
+                <i id="bgmPlayIcon" class="fa-solid fa-play ml-0.5"></i>
+            </button>
+            <div class="flex flex-col min-w-0">
+                <div class="flex items-center gap-2">
+                    <span class="inline-block w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
+                    <span id="currentTrackTitle" class="font-bold truncate text-slate-100">강가에 앉은 시간</span>
                 </div>
-            }
+                <span id="currentTrackArtist" class="text-[11px] text-slate-400 truncate">강태공의 힐링 낚시 BGM</span>
             </div>
-        </section>
+        </div>
 
-        <!-- Records Section -->
-        <section id="records">
-            <h2>최근 조행기 (출조 기록)</h2>
-            <div class="gallery-grid">
-                
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=500&q=80" alt="짜릿한 배스 낚시">
-                    <div class="card-content">
-                        <span class="badge">민물 루어</span>
-                        <h3>가평 자라섬 배스 히트! (45cm)</h3>
-                        <p>이른 새벽 프리리그 채비로 바닥을 천천히 긁어오다 텅- 하는 강한 바이트를 받았습니다. 묵직한 손맛을 안겨준 올해 마수걸이 짜릿한 런커급 배스입니다.</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1615887023516-9b6bcd559e87?auto=format&fit=crop&w=500&q=80" alt="바다 선상 낚시">
-                    <div class="card-content">
-                        <span class="badge">바다 선상</span>
-                        <h3>안면도 광어 다운샷 만쿨 달성</h3>
-                        <p>오랜만에 동호회 회원들과 함께 출조했습니다. 핑크색 웜에 반응이 좋았고, 6짜 광어를 포함해 인당 10수 이상 묵직하게 손맛을 보고 돌아왔습니다.</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1541829032128-fb4ca47c0eb6?auto=format&fit=crop&w=500&q=80" alt="평화로운 밤낚시">
-                    <div class="card-content">
-                        <span class="badge">민물 대물</span>
-                        <h3>충주호 밤낚시, 토종붕어 월척</h3>
-                        <p>새벽 2시경, 드디어 기다리던 찌올림이 시작되었습니다. 중후하게 솟구치는 찌를 보며 챔질 성공! 황금빛 찬란한 35cm 토종붕어를 만났습니다.</p>
-                    </div>
-                </div>
-
+        <div class="flex items-center gap-3 shrink-0">
+            <!-- Progress Bar -->
+            <div class="hidden sm:flex items-center gap-2 w-32 md:w-48">
+                <span id="currentTimeText" class="text-[10px] text-slate-400">0:00</span>
+                <input type="range" id="bgmSeekBar" value="0" min="0" max="100" class="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-sky-400" oninput="seekAudio(this.value)">
+                <span id="durationTimeText" class="text-[10px] text-slate-400">0:00</span>
             </div>
-        </section>
 
-        <!-- Gear Section -->
-        <section id="gear">
-            <h2>나의 주력 장비 (My Gear)</h2>
-            <div class="gear-list">
-                <div class="gear-item">
-                    <span>🎣</span>
-                    <h3>루어 로드</h3>
-                    <p>JS컴퍼니 빅쏘드 B2 / 스피닝 L대 & 베이트 MH대 조합으로 범용성 극대화</p>
-                </div>
-                <div class="gear-item">
-                    <span>⚙️</span>
-                    <h3>주력 릴</h3>
-                    <p>시마노 스텔라 C2000S / 도요 엔지니어링 베이트릴 (우핸들)</p>
-                </div>
-                <div class="gear-item">
-                    <span>🧵</span>
-                    <h3>라인 & 채비</h3>
-                    <p>합사 1.2호 / 카본 쇼크리더 12lb, 주로 프리리그와 미노우 운용</p>
-                </div>
-                <div class="gear-item">
-                    <span>🎒</span>
-                    <h3>태클박스</h3>
-                    <p>메이호 VS-7070 (커스텀 로드 거치대 장착 완료)</p>
-                </div>
+            <!-- Track Prev/Next Controls -->
+            <div class="flex items-center gap-1">
+                <button onclick="prevTrack()" class="p-1.5 text-slate-400 hover:text-white transition-colors" title="이전 곡">
+                    <i class="fa-solid fa-backward-step"></i>
+                </button>
+                <button onclick="nextTrack()" class="p-1.5 text-slate-400 hover:text-white transition-colors" title="다음 곡">
+                    <i class="fa-solid fa-forward-step"></i>
+                </button>
+                <button onclick="toggleMute()" class="p-1.5 text-slate-400 hover:text-white transition-colors" title="음소거">
+                    <i id="bgmMuteIcon" class="fa-solid fa-volume-high"></i>
+                </button>
             </div>
-        </section>
+        </div>
 
+        <!-- Hidden Audio Element -->
+        <audio id="audioPlayer" preload="auto"></audio>
     </div>
 
-    <footer>
-        <p>&copy; 2026 강태공의 낚시 일기. All Rights Reserved. 낚시는 스포츠이자 힐링입니다.</p>
+    <!-- Hero Banner with Background Image -->
+    <header class="relative h-[420px] md:h-[480px] bg-cover bg-center flex flex-col justify-center items-center text-center px-4 text-white shadow-lg overflow-hidden" 
+            style="background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1600&q=80');">
+        <div class="relative z-10 max-w-3xl animate-fade-in">
+            <span class="inline-block px-4 py-1.5 bg-sky-500/80 backdrop-blur-md rounded-full text-xs md:text-sm font-semibold tracking-wider uppercase mb-4 shadow-sm border border-sky-300/30">
+                🎣 Angler's Life & Journal
+            </span>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-white drop-shadow-md leading-tight">
+                인생은 낚시다: 강태공의 조행기
+            </h1>
+            <p class="text-base md:text-xl text-slate-200 font-light drop-shadow max-w-xl mx-auto">
+                물가를 찾아 떠나는 설렘, 손맛 끝에 느끼는 최고의 카타르시스
+            </p>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-slate-50 dark:from-slate-900 to-transparent"></div>
+    </header>
+
+    <!-- Sticky Navigation Bar -->
+    <nav class="sticky top-12 z-40 glass-header border-b border-slate-200 dark:border-slate-800 transition-colors duration-300 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo / Title -->
+                <a href="#" class="flex items-center gap-2 font-bold text-lg md:text-xl text-sky-600 dark:text-sky-400">
+                    <span class="text-2xl">🎣</span>
+                    <span class="hidden sm:inline">강태공의 낚시 일기</span>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#about" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors">앵글러 소개</a>
+                    <a href="#records" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors">대물 조행기</a>
+                    <a href="#gear" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors">주력 장비</a>
+                    <a href="#guestbook" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors">방명록</a>
+                    <a href="#music" class="text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 font-medium transition-colors">출조 BGM</a>
+                </div>
+
+                <!-- Right Actions (Theme Switcher + Mobile Menu Button) -->
+                <div class="flex items-center space-x-3">
+                    <!-- Dark Mode Toggle Button -->
+                    <button id="themeToggleBtn" aria-label="다크 모드 토글" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        <i id="themeMoonIcon" class="fa-solid fa-moon text-lg hidden"></i>
+                        <i id="themeSunIcon" class="fa-solid fa-sun text-lg text-amber-400 hidden"></i>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" aria-label="메뉴 열기" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-4 pt-2 pb-4 space-y-2">
+            <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-800 hover:text-sky-600">앵글러 소개</a>
+            <a href="#records" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-800 hover:text-sky-600">대물 조행기</a>
+            <a href="#gear" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-800 hover:text-sky-600">주력 장비</a>
+            <a href="#guestbook" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-800 hover:text-sky-600">방명록</a>
+            <a href="#music" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-sky-50 dark:hover:bg-slate-800 hover:text-sky-600">출조 BGM</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- About / Profile Section -->
+        <section id="about" class="scroll-mt-28">
+            <div class="flex flex-col md:flex-row items-center gap-8 bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60">
+                <div class="relative shrink-0">
+                    <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=400&q=80" 
+                         alt="낚시꾼 프로필 사진" 
+                         class="w-36 h-36 md:w-44 md:h-44 rounded-full object-cover ring-4 ring-sky-500/30 dark:ring-sky-400/20 shadow-md">
+                    <span class="absolute bottom-2 right-2 bg-emerald-500 text-white p-2 rounded-full text-xs shadow-md" title="출조 중">
+                        <i class="fa-solid fa-fish"></i>
+                    </span>
+                </div>
+                <div class="text-center md:text-left space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300 text-xs font-semibold rounded-full">
+                        <i class="fa-solid fa-user-gear"></i> 프로필 & 소개
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+                        안녕하세요! 주말마다 물가로 향하는 낚시광입니다.
+                    </h2>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base">
+                        민물 루어낚시부터 바다 선상낚시, 갯바위 찌낚시까지 가리지 않고 물고기가 있는 곳이라면 어디든 달려갑니다. 자연이 주는 고요함 속에서 찌를 바라보는 시간, 그리고 짜릿한 드랙음을 울리는 대물과의 한판 승부를 가장 사랑합니다.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-2 justify-center md:justify-start text-xs md:text-sm font-medium">
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700/70 text-slate-700 dark:text-slate-200 rounded-lg">
+                            📌 <strong>선호 장르:</strong> 배스 루어, 광어/주꾸미 다운샷
+                        </span>
+                        <span class="px-3 py-1 bg-slate-100 dark:bg-slate-700/70 text-slate-700 dark:text-slate-200 rounded-lg">
+                            📍 <strong>주 출조지:</strong> 가평, 안면도, 충주호
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catch Records Section -->
+        <section id="records" class="scroll-mt-28 space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 dark:border-slate-800 pb-4 gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-sky-800 dark:text-sky-400 flex items-center gap-2">
+                        <span>최근 조행기</span>
+                        <span class="text-xs bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 px-2.5 py-0.5 rounded-full">출조 기록</span>
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">현장의 생생한 순간과 낚시 팁을 확인하세요.</p>
+                </div>
+
+                <!-- Filter Category Buttons -->
+                <div class="flex flex-wrap gap-2" id="filterBtnGroup">
+                    <button data-filter="all" class="filter-btn active px-3.5 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all bg-sky-600 text-white shadow-sm">
+                        전체 보기
+                    </button>
+                    <button data-filter="민물 루어" class="filter-btn px-3.5 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-sky-100 dark:hover:bg-slate-700">
+                        민물 루어
+                    </button>
+                    <button data-filter="바다 선상" class="filter-btn px-3.5 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-sky-100 dark:hover:bg-slate-700">
+                        바다 선상
+                    </button>
+                    <button data-filter="민물 대물" class="filter-btn px-3.5 py-1.5 rounded-full text-xs md:text-sm font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-sky-100 dark:hover:bg-slate-700">
+                        민물 대물
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gallery Cards Grid -->
+            <div id="recordsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="card-item card-hover bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 dark:border-slate-700/60 cursor-pointer" 
+                     data-category="민물 루어" 
+                     onclick="openRecordModal('가평 자라섬 배스 히트! (45cm)', '민물 루어', 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80', '이른 새벽 프리리그 채비로 바닥을 천천히 긁어오다 텅- 하는 강한 바이트를 받았습니다. 묵직한 손맛을 안겨준 올해 마수걸이 짜릿한 런커급 배스입니다.', '2026.04.12', '가평 자라섬', '프리리그 + 줌 스피드크로우')">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="짜릿한 배스 낚시" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <span class="absolute top-3 left-3 bg-sky-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                            민물 루어
+                        </span>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <div class="text-xs text-slate-400 dark:text-slate-500 flex items-center justify-between">
+                            <span><i class="fa-regular fa-calendar-check mr-1"></i> 2026.04.12</span>
+                            <span><i class="fa-solid fa-location-dot mr-1"></i> 가평 자라섬</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                            가평 자라섬 배스 히트! (45cm)
+                        </h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-2">
+                            이른 새벽 프리리그 채비로 바닥을 천천히 긁어오다 텅- 하는 강한 바이트를 받았습니다. 묵직한 손맛을 안겨준 올해 마수걸이 짜릿한 런커급 배스입니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card-item card-hover bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 dark:border-slate-700/60 cursor-pointer" 
+                     data-category="바다 선상" 
+                     onclick="openRecordModal('안면도 광어 다운샷 만쿨 달성', '바다 선상', 'https://images.unsplash.com/photo-1615887023516-9b6bcd559e87?auto=format&fit=crop&w=800&q=80', '오랜만에 동호회 회원들과 함께 출조했습니다. 핑크색 웜에 반응이 좋았고, 6짜 광어를 포함해 인당 10수 이상 묵직하게 손맛을 보고 돌아왔습니다.', '2026.05.03', '안면도 영목항', '다운샷 채비 + 4인치 쉐드웜')">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1615887023516-9b6bcd559e87?auto=format&fit=crop&w=600&q=80" alt="바다 선상 낚시" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <span class="absolute top-3 left-3 bg-emerald-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                            바다 선상
+                        </span>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <div class="text-xs text-slate-400 dark:text-slate-500 flex items-center justify-between">
+                            <span><i class="fa-regular fa-calendar-check mr-1"></i> 2026.05.03</span>
+                            <span><i class="fa-solid fa-location-dot mr-1"></i> 안면도 영목항</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                            안면도 광어 다운샷 만쿨 달성
+                        </h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-2">
+                            오랜만에 동호회 회원들과 함께 출조했습니다. 핑크색 웜에 반응이 좋았고, 6짜 광어를 포함해 인당 10수 이상 묵직하게 손맛을 보고 돌아왔습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card-item card-hover bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-200/80 dark:border-slate-700/60 cursor-pointer" 
+                     data-category="민물 대물" 
+                     onclick="openRecordModal('충주호 밤낚시, 토종붕어 월척', '민물 대물', 'https://images.unsplash.com/photo-1541829032128-fb4ca47c0eb6?auto=format&fit=crop&w=800&q=80', '새벽 2시경, 드디어 기다리던 찌올림이 시작되었습니다. 중후하게 솟구치는 찌를 보며 챔질 성공! 황금빛 찬란한 35cm 토종붕어를 만났습니다.', '2026.05.20', '충주호 내사리', '3.2쌍포 + 글루텐 떡밥')">
+                    <div class="relative h-52 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1541829032128-fb4ca47c0eb6?auto=format&fit=crop&w=600&q=80" alt="평화로운 밤낚시" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                        <span class="absolute top-3 left-3 bg-amber-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                            민물 대물
+                        </span>
+                    </div>
+                    <div class="p-5 space-y-2">
+                        <div class="text-xs text-slate-400 dark:text-slate-500 flex items-center justify-between">
+                            <span><i class="fa-regular fa-calendar-check mr-1"></i> 2026.05.20</span>
+                            <span><i class="fa-solid fa-location-dot mr-1"></i> 충주호 내사리</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
+                            충주호 밤낚시, 토종붕어 월척
+                        </h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm line-clamp-2">
+                            새벽 2시경, 드디어 기다리던 찌올림이 시작되었습니다. 중후하게 솟구치는 찌를 보며 챔질 성공! 황금빛 찬란한 35cm 토종붕어를 만났습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Gear Section -->
+        <section id="gear" class="scroll-mt-28 space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                <h2 class="text-2xl md:text-3xl font-bold text-sky-800 dark:text-sky-400">
+                    나의 주력 장비 <span class="text-sm font-normal text-slate-500 dark:text-slate-400">(My Tackle & Gear)</span>
+                </h2>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">대물과의 승부를 책임지는 최고의 파트너들입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Gear 1 -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 border-t-4 border-t-sky-500 text-center hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 mx-auto bg-sky-50 dark:bg-sky-950/60 rounded-full flex items-center justify-center text-3xl mb-4 text-sky-600 dark:text-sky-400">
+                        🎣
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">루어 로드</h3>
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        JS컴퍼니 빅쏘드 B2<br>
+                        <span class="text-slate-400 dark:text-slate-500 text-xs">(스피닝 L대 & 베이트 MH대 조합)</span>
+                    </p>
+                </div>
+
+                <!-- Gear 2 -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 border-t-4 border-t-indigo-500 text-center hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 mx-auto bg-indigo-50 dark:bg-indigo-950/60 rounded-full flex items-center justify-center text-3xl mb-4 text-indigo-600 dark:text-indigo-400">
+                        ⚙️
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">주력 릴</h3>
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        시마노 스텔라 C2000S<br>
+                        <span class="text-slate-400 dark:text-slate-500 text-xs">(도요 엔지니어링 베이트릴)</span>
+                    </p>
+                </div>
+
+                <!-- Gear 3 -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 border-t-4 border-t-teal-500 text-center hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 mx-auto bg-teal-50 dark:bg-teal-950/60 rounded-full flex items-center justify-center text-3xl mb-4 text-teal-600 dark:text-teal-400">
+                        🧵
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">라인 & 채비</h3>
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        합사 1.2호 / 카본 쇼크리더 12lb<br>
+                        <span class="text-slate-400 dark:text-slate-500 text-xs">(프리리그 및 미노우 전용)</span>
+                    </p>
+                </div>
+
+                <!-- Gear 4 -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 border-t-4 border-t-amber-500 text-center hover:shadow-md transition-shadow">
+                    <div class="w-16 h-16 mx-auto bg-amber-50 dark:bg-amber-950/60 rounded-full flex items-center justify-center text-3xl mb-4 text-amber-600 dark:text-amber-400">
+                        🎒
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">태클박스</h3>
+                    <p class="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        메이호 VS-7070<br>
+                        <span class="text-slate-400 dark:text-slate-500 text-xs">(커스텀 로드 거치대 장착)</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guestbook / Comment Section -->
+        <section id="guestbook" class="scroll-mt-28 space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-sky-800 dark:text-sky-400 flex items-center gap-2">
+                        <span>방명록 & 소통방</span>
+                        <span class="text-xs bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 px-2.5 py-0.5 rounded-full" id="commentCountBadge">0개</span>
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">자유롭게 조행 소감이나 낚시 팁을 남겨주세요!</p>
+                </div>
+
+                <!-- Search Input for Comments -->
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="commentSearchInput" placeholder="방명록 검색..." 
+                           class="w-full pl-9 pr-4 py-1.5 text-xs md:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Guestbook Form -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 h-fit space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-regular fa-pen-to-square text-sky-500"></i> 방명록 작성하기
+                    </h3>
+
+                    <form id="guestbookForm" class="space-y-4">
+                        <div>
+                            <label for="authorName" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">작성자 이름 / 닉네임 *</label>
+                            <input type="text" id="authorName" required placeholder="예: 도시어부" 
+                                   class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                        </div>
+
+                        <div>
+                            <label for="badgeType" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">선호 뱃지 설정</label>
+                            <select id="badgeType" 
+                                    class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                <option value="🐟 루어 앵글러">🐟 루어 앵글러</option>
+                                <option value="⛵ 바다 선상">⛵ 바다 선상</option>
+                                <option value="🎣 대물 조사">🎣 대물 조사</option>
+                                <option value="🌊 갯바위 매니아">🌊 갯바위 매니아</option>
+                                <option value="⭐ 초보 조사">⭐ 초보 조사</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="commentMessage" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">응원 메시지 / 댓글 *</label>
+                            <textarea id="commentMessage" rows="4" required placeholder="강태공님 안녕하세요! 멋진 대물 조행기 잘 보았습니다." 
+                                      class="w-full px-3.5 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-xl transition-colors shadow-md shadow-sky-500/20 flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-paper-plane"></i> 방명록 남기기
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Guestbook Entries List -->
+                <div class="lg:col-span-7 space-y-4">
+                    <div id="commentsContainer" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+                        <!-- Dynamic comments inserted here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fishing BGM / Music Playlist Section -->
+        <section id="music" class="scroll-mt-28 space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-sky-800 dark:text-sky-400 flex items-center gap-2">
+                        <i class="fa-solid fa-music text-sky-500 text-xl"></i>
+                        <span>강태공의 추천 출조 BGM</span>
+                    </h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">물가에서 고요하게 찌를 바라보며 감상하기 좋은 힐링 송 컬렉션입니다.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Song 1 Card -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-4 relative overflow-hidden flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-solid fa-headphones"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-sky-600 dark:text-sky-400 font-semibold uppercase tracking-wider">Song 01</span>
+                                    <h3 class="text-base font-bold text-slate-900 dark:text-white">강가에 앉은 시간</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed italic border-l-2 border-sky-400 pl-2.5">
+                            "해 뜨기 전 강둑을 따라 낡은 낚싯대 둘러메고..."
+                        </p>
+                    </div>
+                    <button onclick="playTrack(0)" class="w-full py-2 bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 dark:hover:bg-sky-900 text-sky-700 dark:text-sky-300 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-play"></i> 이 노래 재생
+                    </button>
+                </div>
+
+                <!-- Song 2 Card -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-4 relative overflow-hidden flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-solid fa-water"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-teal-600 dark:text-teal-400 font-semibold uppercase tracking-wider">Song 02</span>
+                                    <h3 class="text-base font-bold text-slate-900 dark:text-white">물결아 천천히</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed italic border-l-2 border-teal-400 pl-2.5">
+                            "새벽 물안개 거치는 강가, 보온병 뚜껑에 김이 오르면..."
+                        </p>
+                    </div>
+                    <button onclick="playTrack(1)" class="w-full py-2 bg-teal-50 dark:bg-teal-950/60 hover:bg-teal-100 dark:hover:bg-teal-900 text-teal-700 dark:text-teal-300 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-play"></i> 이 노래 재생
+                    </button>
+                </div>
+
+                <!-- Song 3 Card -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700/60 space-y-4 relative overflow-hidden flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-solid fa-wind"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold uppercase tracking-wider">Song 03</span>
+                                    <h3 class="text-base font-bold text-slate-900 dark:text-white">강이 먼저 말을 거네</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed italic border-l-2 border-indigo-400 pl-2.5">
+                            "새벽의 시간 둑에 차를 세우고, 접이식 의자 다리를 펼쳐..."
+                        </p>
+                    </div>
+                    <button onclick="playTrack(2)" class="w-full py-2 bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-play"></i> 이 노래 재생
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Record Detail Modal -->
+    <div id="recordModal" class="fixed inset-0 z-50 hidden bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 animate-in fade-in zoom-in duration-200">
+            <div class="relative h-64 md:h-80">
+                <img id="modalImage" src="" alt="상세 사진" class="w-full h-full object-cover">
+                <button onclick="closeRecordModal()" class="absolute top-4 right-4 bg-slate-900/60 hover:bg-slate-900 text-white w-9 h-9 rounded-full flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <span id="modalCategory" class="absolute bottom-4 left-4 bg-sky-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md"></span>
+            </div>
+            <div class="p-6 space-y-4">
+                <h3 id="modalTitle" class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white"></h3>
+                
+                <div class="flex flex-wrap gap-4 text-xs md:text-sm text-slate-500 dark:text-slate-400 border-y border-slate-100 dark:border-slate-700 py-3">
+                    <div><i class="fa-regular fa-calendar text-sky-500 mr-1"></i> <strong>날짜:</strong> <span id="modalDate"></span></div>
+                    <div><i class="fa-solid fa-location-dot text-sky-500 mr-1"></i> <strong>포인트:</strong> <span id="modalLocation"></span></div>
+                    <div><i class="fa-solid fa-dharmachakra text-sky-500 mr-1"></i> <strong>사용 채비:</strong> <span id="modalTackle"></span></div>
+                </div>
+
+                <p id="modalDescription" class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm md:text-base"></p>
+
+                <div class="flex justify-end pt-2">
+                    <button onclick="closeRecordModal()" class="px-5 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 text-sm font-semibold rounded-xl transition-colors">
+                        닫기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-xs md:text-sm border-t border-slate-800 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 space-y-2">
+            <p>&copy; 2026 강태공의 낚시 일기. All Rights Reserved.</p>
+            <p class="text-slate-500">낚시는 스포츠이자 자연과의 긴밀한 소통입니다. 건전한 낚시 문화를 응원합니다. 🎣</p>
+        </div>
     </footer>
 
+    <script>
+        /* BGM Playlist System */
+        const PLAYLIST = [
+            {
+                title: "강가에 앉은 시간",
+                artist: "어쿠스틱 포크 BGM",
+                src: "강가에 앉은 시간.mp3"
+            },
+            {
+                title: "물결아 천천히",
+                artist: "힐링 발라드 BGM",
+                src: "물결아 천천히.mp3"
+            },
+            {
+                title: "강이 먼저 말을 거네",
+                artist: "서정 어쿠스틱 BGM",
+                src: "강이 먼저 말을 거네.mp3"
+            }
+        ];
+
+        let currentTrackIndex = 0;
+        let isPlaying = false;
+        const audioPlayer = document.getElementById('audioPlayer');
+        const bgmPlayIcon = document.getElementById('bgmPlayIcon');
+        const currentTrackTitle = document.getElementById('currentTrackTitle');
+        const currentTrackArtist = document.getElementById('currentTrackArtist');
+        const bgmSeekBar = document.getElementById('bgmSeekBar');
+        const currentTimeText = document.getElementById('currentTimeText');
+        const durationTimeText = document.getElementById('durationTimeText');
+        const bgmMuteIcon = document.getElementById('bgmMuteIcon');
+
+        function loadTrack(index) {
+            currentTrackIndex = index;
+            const track = PLAYLIST[index];
+            audioPlayer.src = track.src;
+            currentTrackTitle.innerText = track.title;
+            currentTrackArtist.innerText = track.artist;
+        }
+
+        function playTrack(index) {
+            if (index !== undefined) {
+                loadTrack(index);
+            }
+            audioPlayer.play().then(() => {
+                isPlaying = true;
+                bgmPlayIcon.className = "fa-solid fa-pause";
+            }).catch(err => {
+                console.log("Autoplay blocked or file error:", err);
+            });
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                bgmPlayIcon.className = "fa-solid fa-play ml-0.5";
+            } else {
+                playTrack(currentTrackIndex);
+            }
+        }
+
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + PLAYLIST.length) % PLAYLIST.length;
+            playTrack(currentTrackIndex);
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % PLAYLIST.length;
+            playTrack(currentTrackIndex);
+        }
+
+        function toggleMute() {
+            audioPlayer.muted = !audioPlayer.muted;
+            bgmMuteIcon.className = audioPlayer.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high";
+        }
+
+        function seekAudio(value) {
+            if (audioPlayer.duration) {
+                audioPlayer.currentTime = (value / 100) * audioPlayer.duration;
+            }
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Setup Audio Events
+        audioPlayer.addEventListener('timeupdate', () => {
+            if (audioPlayer.duration) {
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                bgmSeekBar.value = progress;
+                currentTimeText.innerText = formatTime(audioPlayer.currentTime);
+                durationTimeText.innerText = formatTime(audioPlayer.duration);
+            }
+        });
+
+        audioPlayer.addEventListener('ended', () => {
+            nextTrack(); // Auto next track on end
+        });
+
+        // First Interaction Autoplay Trigger
+        document.addEventListener('click', function initAutoplay() {
+            if (!isPlaying) {
+                playTrack(0);
+            }
+            document.removeEventListener('click', initAutoplay);
+        }, { once: true });
+
+        /* Global State & Initial Seed Data */
+        const DEFAULT_COMMENTS = [
+            {
+                id: 1,
+                author: "도시어부",
+                badge: "⛵ 바다 선상",
+                message: "안면도 광어 다운샷 조행기 너무 잘 보았습니다! 혹시 주로 쓰시는 웜 색상이 핑크계열인가요?",
+                timestamp: "2026-05-04 14:20",
+                avatarColor: "bg-blue-500"
+            },
+            {
+                id: 2,
+                author: "배스헌터",
+                badge: "🐟 루어 앵글러",
+                message: "가평 자라섬 45cm 런커 배스 축하드립니다! 새벽 프리리그 바이트 소식에 당장이라도 달려가고 싶네요.",
+                timestamp: "2026-04-13 09:15",
+                avatarColor: "bg-emerald-500"
+            },
+            {
+                id: 3,
+                author: "월척대사",
+                badge: "🎣 대물 조사",
+                message: "충주호 황금 붕어 자태가 눈부십니다. 밤낚시 찌올림 순간의 감동이 그대로 전달되네요. 안출하세요!",
+                timestamp: "2026-05-21 21:05",
+                avatarColor: "bg-amber-500"
+            }
+        ];
+
+        /* Initialize App on Load */
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTrack(0);
+            initTheme();
+            initGuestbook();
+            initCategoryFilters();
+            initMobileMenu();
+        });
+
+        function initTheme() {
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const themeMoonIcon = document.getElementById('themeMoonIcon');
+            const themeSunIcon = document.getElementById('themeSunIcon');
+
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                document.documentElement.classList.add('dark');
+                themeSunIcon.classList.remove('hidden');
+                themeMoonIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeMoonIcon.classList.remove('hidden');
+                themeSunIcon.classList.add('hidden');
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                if (isDark) {
+                    localStorage.setItem('theme', 'dark');
+                    themeSunIcon.classList.remove('hidden');
+                    themeMoonIcon.classList.add('hidden');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    themeMoonIcon.classList.remove('hidden');
+                    themeSunIcon.classList.add('hidden');
+                }
+            });
+        }
+
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        }
+
+        function initCategoryFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.card-item');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-sky-600', 'text-white');
+                        b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+                    });
+
+                    btn.classList.add('active', 'bg-sky-600', 'text-white');
+                    btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+
+                    const filterValue = btn.getAttribute('data-filter');
+
+                    cards.forEach(card => {
+                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+
+        function openRecordModal(title, category, imgSrc, description, date, location, tackle) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalCategory').innerText = category;
+            document.getElementById('modalImage').src = imgSrc;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('modalDate').innerText = date;
+            document.getElementById('modalLocation').innerText = location;
+            document.getElementById('modalTackle').innerText = tackle;
+
+            document.getElementById('recordModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRecordModal() {
+            document.getElementById('recordModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function getStoredComments() {
+            const stored = localStorage.getItem('angler_guestbook');
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (e) {
+                    console.error('Failed to parse comments from localStorage', e);
+                }
+            }
+            localStorage.setItem('angler_guestbook', JSON.stringify(DEFAULT_COMMENTS));
+            return DEFAULT_COMMENTS;
+        }
+
+        function saveComments(comments) {
+            localStorage.setItem('angler_guestbook', JSON.stringify(comments));
+        }
+
+        function initGuestbook() {
+            const guestbookForm = document.getElementById('guestbookForm');
+            const searchInput = document.getElementById('commentSearchInput');
+
+            renderComments();
+
+            guestbookForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const author = document.getElementById('authorName').value.trim();
+                const badge = document.getElementById('badgeType').value;
+                const message = document.getElementById('commentMessage').value.trim();
+
+                if (!author || !message) return;
+
+                const colors = ['bg-sky-500', 'bg-emerald-500', 'bg-indigo-500', 'bg-amber-500', 'bg-rose-500', 'bg-teal-500'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+                const now = new Date();
+                const formattedDate = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+                const newComment = {
+                    id: Date.now(),
+                    author: author,
+                    badge: badge,
+                    message: message,
+                    timestamp: formattedDate,
+                    avatarColor: randomColor
+                };
+
+                const comments = getStoredComments();
+                comments.unshift(newComment);
+                saveComments(comments);
+
+                renderComments();
+                guestbookForm.reset();
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                renderComments(query);
+            });
+        }
+
+        function renderComments(query = '') {
+            const container = document.getElementById('commentsContainer');
+            const countBadge = document.getElementById('commentCountBadge');
+            const comments = getStoredComments();
+
+            const filteredComments = comments.filter(c => 
+                c.author.toLowerCase().includes(query) || 
+                c.message.toLowerCase().includes(query) || 
+                c.badge.toLowerCase().includes(query)
+            );
+
+            countBadge.innerText = `${comments.length}개`;
+
+            if (filteredComments.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <i class="fa-regular fa-comments text-3xl text-slate-300 dark:text-slate-600 mb-2"></i>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm">작성된 방명록이 없거나 검색 결과가 없습니다.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredComments.map(comment => `
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm space-y-2 relative group hover:border-sky-300 dark:hover:border-sky-700 transition-colors">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full ${comment.avatarColor || 'bg-sky-500'} text-white font-bold text-sm flex items-center justify-center shadow-sm">
+                                ${escapeHTML(comment.author.charAt(0))}
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-slate-900 dark:text-white text-sm">${escapeHTML(comment.author)}</span>
+                                    <span class="text-[11px] px-2 py-0.5 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full font-medium">
+                                        ${escapeHTML(comment.badge)}
+                                    </span>
+                                </div>
+                                <span class="text-[11px] text-slate-400 dark:text-slate-500">${comment.timestamp}</span>
+                            </div>
+                        </div>
+
+                        <button onclick="deleteComment(${comment.id})" title="댓글 삭제" class="text-slate-300 hover:text-rose-500 dark:text-slate-600 dark:hover:text-rose-400 p-1.5 transition-colors">
+                            <i class="fa-regular fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+
+                    <p class="text-slate-700 dark:text-slate-300 text-xs md:text-sm pl-12 leading-relaxed whitespace-pre-line">
+                        ${escapeHTML(comment.message)}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function deleteComment(id) {
+            let comments = getStoredComments();
+            comments = comments.filter(c => c.id !== id);
+            saveComments(comments);
+            renderComments(document.getElementById('commentSearchInput').value.toLowerCase());
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+    </script>
 </body>
 </html>

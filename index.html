@@ -20,19 +20,86 @@
     .music-section{background:#edf0e8}.music-wrap{max-width:1160px;margin:auto;padding:78px 24px}.music-top{display:flex;justify-content:space-between;align-items:end;margin-bottom:28px;gap:24px}.tracks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.track{background:#f8f8f2;border:1px solid #dfe5d8;border-radius:6px;padding:18px;display:flex;align-items:center;gap:14px;text-align:left;color:var(--ink);transition:border-color .2s}.track:hover,.track.active{border-color:#84975e}.track-num{font-size:11px;color:#87937b}.track-name{font-family:var(--serif);font-size:14px;flex:1}.track-play{width:32px;height:32px;border:1px solid #d8dfd2;border-radius:50%;background:transparent;color:#4f6944;display:grid;place-items:center;font-size:12px}.track.active .track-play{background:var(--green);color:white;border-color:var(--green)}.music-hint{font-size:11px;color:#758178;margin:16px 0 0}
     .guestbook{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}.guest-copy p{font-size:13px;line-height:1.9;color:#708078;max-width:350px}.guest-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.guest-form input,.guest-form textarea{border:1px solid #dfe5db;background:#fff;border-radius:4px;padding:13px;color:var(--ink);font-size:12px;outline:none}.guest-form input:focus,.guest-form textarea:focus{border-color:#81945c}.guest-form textarea{grid-column:1/-1;min-height:106px;resize:vertical}.guest-form button{justify-self:start}.guest-list{margin-top:24px;display:grid;gap:10px}.guest-message{background:white;border:1px solid var(--line);padding:15px 17px;border-radius:4px}.guest-message-head{display:flex;justify-content:space-between;font-size:11px;font-weight:700}.guest-message time{font-size:10px;color:#99a39b;font-weight:400}.guest-message p{font-size:12px;line-height:1.8;color:#66766d;margin:8px 0 0;white-space:pre-wrap;word-break:break-word}.empty-note{font-size:12px;color:#8b978e;padding:16px 0}
     footer{background:#172d26;color:#c6d0c6}.footer-inner{max-width:1160px;margin:auto;padding:28px 24px;display:flex;justify-content:space-between;align-items:center;font-size:10px}.footer-brand{font-family:var(--serif);font-size:13px;color:#f2f3e8}.player{position:fixed;z-index:20;bottom:0;left:0;right:0;background:#172d26;color:#eff4e9;box-shadow:0 -8px 28px #12271d21}.player-inner{max-width:1160px;margin:auto;min-height:76px;padding:12px 24px;display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center}.now-playing{display:flex;align-items:center;gap:12px;min-width:0}.vinyl{width:38px;height:38px;border:1px solid #6c806b;border-radius:50%;display:grid;place-items:center;color:#d4e66f;font-size:13px;flex:none}.now-title{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.now-sub{font-size:10px;color:#aab9aa;margin-top:4px}.player-controls{display:flex;align-items:center;gap:17px}.player-controls button,.volume-btn{color:#eaf0e5;background:none;border:0;font-size:15px;padding:5px}.player-controls .main-play{width:34px;height:34px;border-radius:50%;background:var(--lime);color:var(--ink);font-size:13px}.progress-area{display:flex;align-items:center;gap:9px;min-width:0}.time{font-size:9px;color:#acb9aa;font-variant-numeric:tabular-nums}.seek{--p:0%;height:5px;flex:1;min-width:40px;appearance:none;border:0;border-radius:10px;outline:none;background:linear-gradient(to right,#d4e66f 0%,#d4e66f var(--p),#52675a var(--p),#52675a 100%);cursor:pointer}.seek::-webkit-slider-thumb{appearance:none;width:12px;height:12px;border-radius:50%;background:#f3f5e8;border:2px solid #172d26;box-shadow:0 0 0 1px #d4e66f}.seek::-moz-range-thumb{width:9px;height:9px;border-radius:50%;background:#f3f5e8;border:2px solid #172d26;box-shadow:0 0 0 1px #d4e66f}.player-right{display:flex;align-items:center;gap:12px;justify-content:flex-end}.volume{width:64px;height:4px;accent-color:#d4e66f}.player-right button{background:none;border:0;color:#eaf0e5;font-size:13px}.toast{position:fixed;bottom:98px;left:50%;transform:translateX(-50%);z-index:30;padding:10px 16px;border-radius:99px;background:#243c31;color:white;font-size:11px;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
-    @media(max-width:800px){.hero{grid-template-columns:1fr;gap:32px;padding-top:42px}.hero-copy{max-width:620px}.hero-image{height:390px}.entries{grid-template-columns:repeat(2,1fr)}.entry:last-child{display:none}.guestbook{grid-template-columns:1fr;gap:26px}.player-inner{grid-template-columns:1fr auto;gap:8px 16px}.player-controls{grid-row:1;grid-column:2}.progress-area{grid-row:2;grid-column:1/-1}.now-playing{grid-row:1;grid-column:1}.player-right{display:none}.player{padding-bottom:env(safe-area-inset-bottom)}}
+    @media(max-width:800px){.hero{grid-template-columns:1fr;gap:32px;padding-top:42px}.hero-copy{max-width:620px}.hero-image{height:390px}.entries{grid-template-columns:repeat(2,1fr)}.guestbook{grid-template-columns:1fr;gap:26px}.player-inner{grid-template-columns:1fr auto;gap:8px 16px}.player-controls{grid-row:1;grid-column:2}.progress-area{grid-row:2;grid-column:1/-1}.now-playing{grid-row:1;grid-column:1}.player-right{display:none}.player{padding-bottom:env(safe-area-inset-bottom)}}
     @media(max-width:560px){.nav{height:62px}.nav-inner{padding:0 18px}.nav-links{gap:15px;font-size:11px}.nav-note{display:none}.hero{padding:34px 18px 50px}.hero-image{height:310px;border-bottom-right-radius:54px}.hero h1{font-size:42px}.intro-strip .strip-text{font-size:13px}.strip-inner{padding:17px 18px}.strip-label{font-size:9px}.strip-mark{display:none}.section{padding:66px 18px}.section-head{align-items:start;flex-direction:column;margin-bottom:22px}.section-sub{max-width:100%}.entries{grid-template-columns:1fr;gap:14px}.entry:last-child{display:block}.entry-photo{height:220px}.quote-inner{padding:43px 18px;display:block}.quote-sign{display:block;margin-top:17px}.music-wrap{padding:58px 18px}.tracks{grid-template-columns:1fr;gap:8px}.track{padding:14px}.guest-form{grid-template-columns:1fr}.guest-form textarea{grid-column:auto}.footer-inner{padding:24px 18px;gap:10px;align-items:start;flex-direction:column}.player-inner{padding:10px 16px;min-height:70px;grid-template-columns:minmax(0,1fr) auto}.player-controls{gap:10px}.progress-area{gap:6px}.now-title{max-width:190px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important}}
+    .content-index{max-width:1160px;margin:0 auto;padding:64px 24px 76px}
+    .content-index-inner{background:#e9ede2;border:1px solid #dfe5d7;border-radius:10px;padding:38px 40px 40px;position:relative;overflow:hidden}
+    .content-index-inner:before{content:"";position:absolute;width:340px;height:340px;border:1px solid #d9e0d1;border-radius:50%;right:-170px;top:-205px;pointer-events:none}
+    .index-heading{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:28px;position:relative}
+    .index-heading h2{font-family:var(--serif);font-size:clamp(30px,3.5vw,42px);line-height:1.35;letter-spacing:-.06em;margin:12px 0}
+    .index-heading p:not(.section-kicker){font-size:13px;line-height:1.8;color:#65746b;margin:0;max-width:500px}
+    .index-mark{width:104px;height:104px;border:1px solid #cbd5c3;border-radius:50%;display:flex;flex-direction:column;justify-content:center;align-items:center;flex:none;color:#75846b;transform:rotate(8deg)}
+    .index-mark span{font-size:8px;letter-spacing:.16em}.index-mark strong{font-family:var(--serif);font-size:20px;color:#254d3c;margin-top:4px}
+    .index-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:16px}
+    .index-panel{background:#f8f8f2;border:1px solid #dfe5d8;border-radius:7px;padding:20px 22px}
+    .index-panel-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid #e4e8df;margin-bottom:4px}
+    .index-panel-head strong{font-family:var(--serif);font-size:17px;letter-spacing:-.03em}
+    .index-count{font-size:10px;letter-spacing:.1em;color:#788c4e;font-weight:700}
+    .index-story{display:grid;grid-template-columns:32px 1fr auto;grid-template-rows:auto auto;column-gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #e9ece5;color:var(--ink)}
+    .index-story:last-child{border-bottom:0}
+    .index-story:hover .index-story-title{color:#718447}
+    .index-no{grid-row:1/3;font-family:var(--serif);font-size:13px;color:#94a084}
+    .index-place{font-size:9px;letter-spacing:.1em;color:#839078}
+    .index-story-title{font-family:var(--serif);font-size:13px;font-weight:600;letter-spacing:-.025em;margin-top:3px;transition:color .2s}
+    .index-arrow{grid-column:3;grid-row:1/3;color:#82916d;font-size:15px;padding:0 4px}
+    .index-sound-panel{background:#254d3c;color:#f4f4e9;border-radius:7px;padding:21px 22px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+    .index-sound-panel:after{content:"♫";font-family:serif;font-size:150px;line-height:1;position:absolute;right:-10px;top:34px;color:#ffffff0b;pointer-events:none}
+    .index-sound-panel .index-panel-head{border-color:#ffffff27;position:relative;z-index:1}
+    .index-sound-panel .index-panel-head strong{color:#f4f4e9}
+    .index-sound-panel .index-count{color:#d4e66f}
+    .index-sound-intro{font-size:11px;line-height:1.8;color:#c5d1c4;margin:13px 0 17px;position:relative;z-index:1}
+    .index-track{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 0;border-bottom:1px solid #ffffff20;color:#f4f4e9;position:relative;z-index:1}
+    .index-track:last-of-type{border:0}
+    .index-track span:first-child{font-family:var(--serif);font-size:12px}
+    .index-track span:last-child{font-size:10px;color:#d4e66f}
+    .index-track:hover span:first-child{color:#d4e66f}
+    .index-player-link{margin-top:auto;padding-top:17px;font-size:10px;color:#d4e66f;letter-spacing:.04em;position:relative;z-index:1}
+    .index-youtube{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fff8f5;border:1px solid #f0ded8;border-radius:7px;padding:19px 22px;color:var(--ink)}
+    .index-youtube-copy{display:flex;align-items:center;gap:15px}.youtube-mark{width:42px;height:30px;border-radius:9px;background:#e62117;color:#fff;display:grid;place-items:center;font-size:13px;flex:none}.index-youtube h3{font-family:var(--serif);font-size:15px;margin:0 0 4px;letter-spacing:-.03em}.index-youtube p{font-size:11px;color:#786c68;margin:0}.youtube-link{border-radius:999px;background:#e62117;color:white;padding:11px 16px;font-size:11px;font-weight:700;white-space:nowrap}.youtube-link:hover{background:#bd1c14}
+    @media(max-width:800px){.content-index{padding:54px 24px}.content-index-inner{padding:30px}.index-grid{grid-template-columns:1fr}.index-sound-panel{min-height:300px}}
+    @media(max-width:560px){.content-index{padding:44px 18px}.content-index-inner{padding:23px 18px}.index-heading{align-items:start}.index-mark{width:72px;height:72px}.index-mark strong{font-size:16px}.index-mark span{font-size:7px}.index-heading h2{font-size:30px}.index-panel{padding:17px 15px}}
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="nav-inner"><a href="#top" class="brand">정진호의 <span>물가일기</span></a><div class="nav-links"><a href="#journal">조행일기</a><a href="#music">물가의 음악</a><a href="#guestbook">방명록</a></div><span class="nav-note">A JOURNAL BY JINHO</span></div></nav>
+  <nav class="nav"><div class="nav-inner"><a href="#top" class="brand">정진호의 <span>물가일기</span></a><div class="nav-links"><a href="#content-index">콘텐츠</a><a href="#music">물가의 음악</a><a href="#guestbook">방명록</a></div><span class="nav-note">A JOURNAL BY JINHO</span></div></nav>
   <main id="top">
     <section class="hero">
       <div class="hero-copy"><div class="eyebrow">FISHING · SLOW DAYS · GOOD MEMORIES</div><h1>물가에 앉아<br>하루를 <em>기록하다</em></h1><p>안녕하세요, 정진호입니다. 바람이 좋은 날이면 낚싯대를 챙겨 강과 바다로 향합니다. 입질을 기다리는 고요한 시간, 그날의 풍경과 마음을 이곳에 남깁니다.</p><div class="hero-cta"><a class="btn" href="#journal">일기 읽어보기 <span>↘</span></a><a class="text-link" href="#guestbook">방명록 남기기 →</a></div></div>
       <div class="hero-image"><img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1500&q=85" alt="잔잔한 물가의 풍경"><div class="photo-caption">아침 안개가 걷히던 어느 강가</div><div class="hero-stamp">바람 따라<br>물 따라<br>천천히</div></div>
     </section>
     <div class="intro-strip"><div class="strip-inner"><span class="strip-label">NOTE TO MYSELF</span><span class="strip-text">“오늘 못 잡아도 괜찮아. 여기까지 오는 길이 좋았으니까.”</span><span class="strip-mark">✳</span></div></div>
+    <section class="content-index" id="content-index">
+      <div class="content-index-inner">
+        <div class="index-heading">
+          <div><div class="section-kicker">THE COLLECTION · 10 ITEMS</div><h2>물가의 기록을<br>한곳에 모았습니다</h2><p>조행일기 여섯 편과 음악 세 곡, 유튜브 채널을 한눈에 둘러보고 원하는 기록으로 바로 이동해 보세요.</p></div>
+          <div class="index-mark"><span>ARCHIVE</span><strong>01—10</strong></div>
+        </div>
+        <div class="index-grid">
+          <div class="index-panel">
+            <div class="index-panel-head"><strong>조행일기</strong><span class="index-count">FIELD NOTES · 06</span></div>
+            <a class="index-story" href="journal/goseong.html"><span class="index-no">01</span><span class="index-place">EAST SEA · 2026.06.14</span><strong class="index-story-title">파도 소리에 맞춰 던진 아침</strong><span class="index-arrow">↗</span></a>
+            <a class="index-story" href="journal/taean.html"><span class="index-no">02</span><span class="index-place">WEST SEA · 2026.05.17</span><strong class="index-story-title">몽산포 모래밭의 첫 광어</strong><span class="index-arrow">↗</span></a>
+            <a class="index-story" href="journal/chungju.html"><span class="index-no">03</span><span class="index-place">LAKE · 2026.04.26</span><strong class="index-story-title">봄바람이 머문 호수</strong><span class="index-arrow">↗</span></a>
+            <a class="index-story" href="journal/yeongjong.html"><span class="index-no">04</span><span class="index-place">HARBOR · 2026.03.08</span><strong class="index-story-title">초봄 바람과 우럭 한 마리</strong><span class="index-arrow">↗</span></a>
+            <a class="index-story" href="journal/tongyeong.html"><span class="index-no">05</span><span class="index-place">SOUTH COAST · 2025.11.08</span><strong class="index-story-title">노을 아래 마지막 캐스팅</strong><span class="index-arrow">↗</span></a>
+            <a class="index-story" href="journal/namhan.html"><span class="index-no">06</span><span class="index-place">RIVER · 2025.10.12</span><strong class="index-story-title">강물이 알려준 느린 리듬</strong><span class="index-arrow">↗</span></a>
+          </div>
+          <div class="index-sound-panel">
+            <div class="index-panel-head"><strong>물가의 음악</strong><span class="index-count">SOUNDTRACK · 03</span></div>
+            <p class="index-sound-intro">물가에서 듣기 좋은 세 곡을 골랐습니다.<br>곡을 누르면 음원 파일을 바로 열 수 있어요.</p>
+            <a class="index-track" href="assets/bgm1.mp3"><span>강가에 앉은 시간</span><span>MP3 ↗</span></a>
+            <a class="index-track" href="assets/bgm2.mp3"><span>물결아 천천히</span><span>MP3 ↗</span></a>
+            <a class="index-track" href="assets/bgm3.mp3"><span>강이 먼저 말을 거네</span><span>MP3 ↗</span></a>
+            <a class="index-player-link" href="#music">홈페이지 플레이어에서 듣기 ↘</a>
+          </div>
+          <div class="index-youtube">
+            <div class="index-youtube-copy"><span class="youtube-mark" aria-hidden="true">▶</span><div><h3>유튜브 채널 · @ekfndk</h3><p>영상으로 만나는 물가의 기록</p></div></div>
+            <a class="youtube-link" href="https://www.youtube.com/@ekfndk" target="_blank" rel="noopener noreferrer">채널 방문 ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="section" id="journal"><div class="section-head"><div><div class="section-kicker">FIELD NOTES · 2025—2026</div><h2>물가에서 보낸 날들</h2></div><p class="section-sub">낚시의 결과보다 그날의 공기와 풍경을 더 오래 기억하고 싶어서, 한 장면씩 적어 둡니다.</p></div>
       <p class="section-sub" style="max-width:none;margin:-18px 0 22px">각 조행기를 누르면 그날의 이야기를 더 자세히 볼 수 있어요. 날짜와 조과는 컨셉용 예시 기록입니다.</p>
       <div class="entries">

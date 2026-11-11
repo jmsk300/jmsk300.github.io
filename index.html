@@ -57,12 +57,14 @@
     .index-player-link{margin-top:auto;padding-top:17px;font-size:10px;color:#d4e66f;letter-spacing:.04em;position:relative;z-index:1}
     .index-youtube{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fff8f5;border:1px solid #f0ded8;border-radius:7px;padding:19px 22px;color:var(--ink)}
     .index-youtube-copy{display:flex;align-items:center;gap:15px}.youtube-mark{width:42px;height:30px;border-radius:9px;background:#e62117;color:#fff;display:grid;place-items:center;font-size:13px;flex:none}.index-youtube h3{font-family:var(--serif);font-size:15px;margin:0 0 4px;letter-spacing:-.03em}.index-youtube p{font-size:11px;color:#786c68;margin:0}.youtube-link{border-radius:999px;background:#e62117;color:white;padding:11px 16px;font-size:11px;font-weight:700;white-space:nowrap}.youtube-link:hover{background:#bd1c14}
+    .games-promo{max-width:1160px;margin:0 auto;padding:0 24px 20px}.games-promo-link{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;background:var(--green);color:#f4f4e9;border-radius:8px;transition:background .2s,transform .2s}.games-promo-link:hover{background:#193d2e;transform:translateY(-2px)}.games-promo-copy{display:flex;align-items:center;gap:16px}.games-promo-icon{width:46px;height:46px;border-radius:50%;background:#ffffff16;display:grid;place-items:center;font-size:22px;flex:none}.games-promo-title{display:block;font-family:var(--serif);font-size:16px;margin-bottom:5px}.games-promo-subtitle{font-size:11px;color:#c7d3c4}.games-promo-action{color:var(--lime);font-size:12px;white-space:nowrap}
+    @media(max-width:560px){.games-promo{padding:0 18px 12px}.games-promo-link{padding:18px 15px;gap:10px}.games-promo-copy{gap:10px}.games-promo-icon{width:38px;height:38px;font-size:19px}.games-promo-title{font-size:13px}.games-promo-subtitle{font-size:10px}.games-promo-action{font-size:10px}}
     @media(max-width:800px){.content-index{padding:54px 24px}.content-index-inner{padding:30px}.index-grid{grid-template-columns:1fr}.index-sound-panel{min-height:300px}}
     @media(max-width:560px){.content-index{padding:44px 18px}.content-index-inner{padding:23px 18px}.index-heading{align-items:start}.index-mark{width:72px;height:72px}.index-mark strong{font-size:16px}.index-mark span{font-size:7px}.index-heading h2{font-size:30px}.index-panel{padding:17px 15px}}
   </style>
 </head>
 <body>
-  <nav class="nav"><div class="nav-inner"><a href="#top" class="brand">정진호의 <span>물가일기</span></a><div class="nav-links"><a href="#content-index">콘텐츠</a><a href="#music">물가의 음악</a><a href="#guestbook">방명록</a></div><span class="nav-note">A JOURNAL BY JINHO</span></div></nav>
+  <nav class="nav"><div class="nav-inner"><a href="#top" class="brand">정진호의 <span>물가일기</span></a><div class="nav-links"><a href="#content-index">콘텐츠</a><a href="games/index.html">미니게임</a><a href="#music">물가의 음악</a><a href="#guestbook">방명록</a></div><span class="nav-note">A JOURNAL BY JINHO</span></div></nav>
   <main id="top">
     <section class="hero">
       <div class="hero-copy"><div class="eyebrow">FISHING · SLOW DAYS · GOOD MEMORIES</div><h1>물가에 앉아<br>하루를 <em>기록하다</em></h1><p>안녕하세요, 정진호입니다. 바람이 좋은 날이면 낚싯대를 챙겨 강과 바다로 향합니다. 입질을 기다리는 고요한 시간, 그날의 풍경과 마음을 이곳에 남깁니다.</p><div class="hero-cta"><a class="btn" href="#journal">일기 읽어보기 <span>↘</span></a><a class="text-link" href="#guestbook">방명록 남기기 →</a></div></div>
@@ -100,6 +102,7 @@
         </div>
       </div>
     </section>
+    <section class="games-promo"><a class="games-promo-link" href="games/index.html"><span class="games-promo-copy"><span class="games-promo-icon" aria-hidden="true">🎣</span><span><strong class="games-promo-title">물가 놀이터 · 미니게임 6종</strong><span class="games-promo-subtitle">캐스팅 감각부터 물고기 짝 찾기까지, 잠깐 쉬어 가며 즐겨보세요.</span></span></span><span class="games-promo-action">게임하러 가기 ↗</span></a></section>
     <section class="section" id="journal"><div class="section-head"><div><div class="section-kicker">FIELD NOTES · 2025—2026</div><h2>물가에서 보낸 날들</h2></div><p class="section-sub">낚시의 결과보다 그날의 공기와 풍경을 더 오래 기억하고 싶어서, 한 장면씩 적어 둡니다.</p></div>
       <p class="section-sub" style="max-width:none;margin:-18px 0 22px">각 조행기를 누르면 그날의 이야기를 더 자세히 볼 수 있어요. 날짜와 조과는 컨셉용 예시 기록입니다.</p>
       <div class="entries">

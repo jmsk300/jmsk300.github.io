@@ -1,4 +1,4 @@
 @echo off
 cd /d "%~dp0"
-python outing_helper.py
+python fishing_integrated.py
 if errorlevel 1 pause

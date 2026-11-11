@@ -25,7 +25,7 @@ UA = "JinhoFishingJournal/1.0 (outing helper)"
 
 def read_json(path: Path, fallback):
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        return json.loads(path.read_text(encoding="utf-8-sig"))
     except (OSError, json.JSONDecodeError):
         return fallback
 
@@ -182,6 +182,160 @@ def tide_for(day, station_code):
     if not events:
         raise ValueError("조석 API에서 만조·간조 자료를 찾지 못했어요. 관측소 코드를 확인하거나 직접 입력해 주세요.")
     return {"stationCode": station_code, "events": events, "source": "국립해양조사원 조석예보", "fetchedAt": datetime.now().astimezone().isoformat(timespec="minutes")}
+
+
+COASTAL_POINTS = [
+    {"name": "인천 영종도", "latitude": 37.46, "longitude": 126.44, "aliases": ["영종", "인천"]},
+    {"name": "강원 속초", "latitude": 38.19, "longitude": 128.61, "aliases": ["속초"]},
+    {"name": "강원 주문진", "latitude": 37.89, "longitude": 128.83, "aliases": ["주문진", "강릉"]},
+    {"name": "충남 태안 안면도", "latitude": 36.51, "longitude": 126.35, "aliases": ["태안", "안면도"]},
+    {"name": "전북 군산 선유도", "latitude": 35.81, "longitude": 126.41, "aliases": ["군산", "선유도"]},
+    {"name": "전남 여수 돌산", "latitude": 34.62, "longitude": 127.75, "aliases": ["여수", "돌산"]},
+    {"name": "경남 통영 미륵도", "latitude": 34.82, "longitude": 128.42, "aliases": ["통영", "미륵도"]},
+    {"name": "부산 기장", "latitude": 35.18, "longitude": 129.22, "aliases": ["부산", "기장"]},
+    {"name": "제주 성산", "latitude": 33.46, "longitude": 126.93, "aliases": ["제주", "성산"]},
+]
+FRESHWATER_POINTS = [
+    {"name": "경기 파주 공릉천", "latitude": 37.84, "longitude": 126.79, "aliases": ["파주", "공릉천"]},
+    {"name": "강원 춘천 의암호", "latitude": 37.90, "longitude": 127.73, "aliases": ["춘천", "의암호"]},
+    {"name": "충북 충주호", "latitude": 36.99, "longitude": 127.99, "aliases": ["충주", "충주호"]},
+    {"name": "대전 대청호", "latitude": 36.48, "longitude": 127.49, "aliases": ["대청호", "대전"]},
+]
+
+
+def _multi_payload(payload, index):
+    if isinstance(payload, list):
+        return payload[index] if index < len(payload) else {}
+    return payload if index == 0 else {}
+
+
+def _number(values, index):
+    try:
+        value = values[index]
+        return float(value) if value is not None else None
+    except (IndexError, TypeError, ValueError):
+        return None
+
+
+def fishing_score(row, water_type):
+    """Transparent environmental heuristic (not a catch guarantee)."""
+    factors = []
+    wind = row.get("windKmh")
+    if wind is not None:
+        factors.append((max(0, min(100, 100 - max(0, wind - 5) * 5)), 0.30))
+    wave = row.get("waveM")
+    if water_type == "sea" and wave is not None:
+        factors.append((max(0, min(100, 100 - max(0, wave - 0.2) * 45)), 0.30))
+    rain = row.get("rainChance")
+    if rain is not None:
+        factors.append((max(0, 100 - rain * 0.75), 0.18))
+    temp = row.get("airTemp")
+    if temp is not None:
+        factors.append((max(0, 100 - abs(temp - 19) * 3.5), 0.12))
+    tide_move = row.get("tideMove")
+    if water_type == "sea" and tide_move is not None:
+        factors.append((min(100, tide_move * 180), 0.10))
+    total_weight = sum(weight for _, weight in factors)
+    return round(sum(score * weight for score, weight in factors) / total_weight) if total_weight else 0
+
+
+def fishing_forecast(water_type="sea", day=None):
+    """Fetch today's hourly forecast for built-in Korean fishing areas."""
+    target = date.fromisoformat(day) if day else date.today()
+    points = COASTAL_POINTS if water_type == "sea" else FRESHWATER_POINTS
+    latitudes = ",".join(str(point["latitude"]) for point in points)
+    longitudes = ",".join(str(point["longitude"]) for point in points)
+    weather_fields = "temperature_2m,precipitation_probability,precipitation,wind_speed_10m,wind_gusts_10m,wind_direction_10m"
+    weather_query = urlencode({
+        "latitude": latitudes, "longitude": longitudes, "hourly": weather_fields,
+        "forecast_days": 2, "timezone": "Asia/Seoul", "wind_speed_unit": "kmh"
+    })
+    weather_data = api_json("https://api.open-meteo.com/v1/forecast?" + weather_query)
+    marine_data = None
+    if water_type == "sea":
+        marine_fields = "wave_height,sea_surface_temperature,sea_level_height_msl,ocean_current_velocity"
+        marine_query = urlencode({
+            "latitude": latitudes, "longitude": longitudes, "hourly": marine_fields,
+            "forecast_days": 2, "timezone": "Asia/Seoul", "length_unit": "metric", "cell_selection": "sea"
+        })
+        marine_data = api_json("https://marine-api.open-meteo.com/v1/marine?" + marine_query)
+
+    output = []
+    local_now = datetime.now().astimezone().strftime("%Y-%m-%dT%H")
+    for index, point in enumerate(points):
+        weather = _multi_payload(weather_data, index).get("hourly", {})
+        marine = _multi_payload(marine_data, index).get("hourly", {}) if marine_data is not None else {}
+        times = weather.get("time", [])
+        marine_times = marine.get("time", [])
+        marine_indices = {value: i for i, value in enumerate(marine_times)}
+        hourly = []
+        for i, timestamp in enumerate(times):
+            if not timestamp.startswith(target.isoformat()):
+                continue
+            mi = marine_indices.get(timestamp)
+            row = {
+                "time": timestamp,
+                "airTemp": _number(weather.get("temperature_2m", []), i),
+                "rainChance": _number(weather.get("precipitation_probability", []), i),
+                "rainMm": _number(weather.get("precipitation", []), i),
+                "windKmh": _number(weather.get("wind_speed_10m", []), i),
+                "gustKmh": _number(weather.get("wind_gusts_10m", []), i),
+                "windDirection": _number(weather.get("wind_direction_10m", []), i),
+                "waveM": _number(marine.get("wave_height", []), mi) if mi is not None else None,
+                "waterTemp": _number(marine.get("sea_surface_temperature", []), mi) if mi is not None else None,
+                "seaLevel": _number(marine.get("sea_level_height_msl", []), mi) if mi is not None else None,
+                "currentKmh": _number(marine.get("ocean_current_velocity", []), mi) if mi is not None else None,
+            }
+            hourly.append(row)
+        for i, row in enumerate(hourly):
+            before = hourly[max(0, i - 1)].get("seaLevel")
+            after = hourly[min(len(hourly) - 1, i + 1)].get("seaLevel")
+            row["tideMove"] = abs(after - before) if before is not None and after is not None else None
+            row["score"] = fishing_score(row, water_type)
+        tide_events = []
+        for i in range(1, len(hourly) - 1):
+            prev, current, nxt = (hourly[j].get("seaLevel") for j in (i - 1, i, i + 1))
+            if prev is None or current is None or nxt is None:
+                continue
+            if current >= prev and current > nxt:
+                tide_events.append({"time": hourly[i]["time"], "type": "만조 추정", "levelMsl": current})
+            elif current <= prev and current < nxt:
+                tide_events.append({"time": hourly[i]["time"], "type": "간조 추정", "levelMsl": current})
+        upcoming = [row for row in hourly if row["time"][:13] >= local_now] if target == date.today() else hourly
+        ranked_hours = sorted(upcoming or hourly, key=lambda row: row["score"], reverse=True)
+        best = ranked_hours[0] if ranked_hours else {}
+        output.append({
+            **point, "waterType": water_type, "hourly": upcoming or hourly,
+            "bestTime": best.get("time"), "bestScore": best.get("score", 0),
+            "tideEvents": tide_events, "fetchedAt": datetime.now().astimezone().isoformat(timespec="minutes"),
+            "source": "Open-Meteo Forecast API" + (" · Open-Meteo Marine API" if water_type == "sea" else "")
+        })
+    output.sort(key=lambda item: item["bestScore"], reverse=True)
+    return output
+
+
+def historical_catches(point, water_type="sea"):
+    aliases = [point.get("name", "")] + point.get("aliases", [])
+    aliases = [re.sub(r"\s+", "", name).lower() for name in aliases if name]
+    records = read_json(PRIVATE_FILE, [])
+    matches = []
+    for record in records if isinstance(records, list) else []:
+        location = re.sub(r"\s+", "", str(record.get("location", ""))).lower()
+        record_water = record.get("waterType", "sea")
+        if record_water == water_type and any(alias in location or location in alias for alias in aliases if len(alias) >= 2):
+            matches.append(record)
+    species = {}
+    total_catches = 0
+    for record in matches:
+        for item in re.split(r"[,，、/ ]+", str(record.get("species", ""))):
+            if item:
+                species[item] = species.get(item, 0) + 1
+        try:
+            total_catches += max(0, int(record.get("catchCount") or 0))
+        except (TypeError, ValueError):
+            pass
+    return {"recordCount": len(matches), "totalCatchCount": total_catches,
+            "species": sorted(species.items(), key=lambda pair: (-pair[1], pair[0])), "records": matches}
 
 
 class Handler(BaseHTTPRequestHandler):

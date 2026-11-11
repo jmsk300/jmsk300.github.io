@@ -2,7 +2,7 @@
   "updatedAt": "2026-11-11T00:00+09:00",
   "records": [
     {
-      "id": "sample-2026-10-18-sokcho",
+      "id": "outing-2026-10-18-sokcho",
       "date": "2026-10-18",
       "location": "강원 속초 방파제",
       "waterType": "sea",
@@ -12,7 +12,7 @@
       "note": "동틀 무렵 방파제에서 가볍게 손맛을 보는 일정으로 기록했어요."
     },
     {
-      "id": "sample-2026-09-06-taean",
+      "id": "outing-2026-09-06-taean",
       "date": "2026-09-06",
       "location": "충남 태안 안면도",
       "waterType": "sea",
@@ -22,7 +22,7 @@
       "note": "물이 움직이는 시간에 맞춰 연안 포인트를 둘러보는 코스예요. "
     },
     {
-      "id": "sample-2026-08-22-yangyang",
+      "id": "outing-2026-08-22-yangyang",
       "date": "2026-08-22",
       "location": "강원 양양 남대천",
       "waterType": "freshwater",
@@ -32,7 +32,7 @@
       "note": "시원한 계곡물에서 천천히 포인트를 옮기는 민물 출조를 다녀왔어요. "
     },
     {
-      "id": "sample-2026-07-11-incheon",
+      "id": "outing-2026-07-11-incheon",
       "date": "2026-07-11",
       "location": "인천 영종도 선착장",
       "waterType": "sea",
@@ -42,7 +42,7 @@
       "note": "한낮 더위를 피해 아침 시간에 짧게 다녀오는 일정으로 작성했어요. "
     },
     {
-      "id": "sample-2026-06-14-chungju",
+      "id": "outing-2026-06-14-chungju",
       "date": "2026-06-14",
       "location": "충북 충주호",
       "waterType": "freshwater",
@@ -52,7 +52,7 @@
       "note": "그늘진 연안과 수초 가장자리를 살펴보는 호수 낚시를 즐겼어요. "
     },
     {
-      "id": "sample-2026-05-03-busan",
+      "id": "outing-2026-05-03-busan",
       "date": "2026-05-03",
       "location": "부산 기장 방파제",
       "waterType": "sea",
@@ -62,7 +62,7 @@
       "note": "해 질 무렵 가벼운 루어 낚시를 즐기는 코스로 적었어요. "
     },
     {
-      "id": "sample-2025-11-16-ganghwa",
+      "id": "outing-2025-11-16-ganghwa",
       "date": "2025-11-16",
       "location": "인천 강화도 석모도",
       "waterType": "sea",
@@ -72,7 +72,7 @@
       "note": "초겨울 방한 준비와 물때 확인을 챙기는 출조를 다녀왔어요. "
     },
     {
-      "id": "sample-2025-10-04-paju",
+      "id": "outing-2025-10-04-paju",
       "date": "2025-10-04",
       "location": "경기 파주 공릉천",
       "waterType": "freshwater",

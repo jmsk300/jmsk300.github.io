@@ -1,3 +1,7 @@
 # Local outing diary and private API credentials
 outing_records.json
 outing_config.json
+build/
+dist/
+FishingAssistant.spec
+__pycache__/

@@ -1,0 +1,32 @@
+name: Build Windows fishing assistant
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install packager
+        run: python -m pip install --upgrade pyinstaller
+
+      - name: Build standalone application
+        run: pyinstaller --noconfirm --clean --onefile --windowed --name FishingAssistant --add-data "planner/index.html;planner" fishing_integrated.py
+
+      - name: Publish download release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$env:GITHUB_REF_NAME" dist/FishingAssistant.exe --repo "$env:GITHUB_REPOSITORY" --title "낚시 통합 도우미 $env:GITHUB_REF_NAME" --notes "Windows 10/11용 낚시 통합 도우미입니다. FishingAssistant.exe를 다운로드해 실행하세요."

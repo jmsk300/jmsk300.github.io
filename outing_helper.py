@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 import threading
 import uuid
 import webbrowser
@@ -15,10 +16,16 @@ from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parent
-APP_PAGE = ROOT / "planner" / "index.html"
-PRIVATE_FILE = ROOT / "outing_records.json"
-PUBLIC_FILE = ROOT / "data" / "outings.json"
-CONFIG_FILE = ROOT / "outing_config.json"
+APP_PAGE = (Path(getattr(sys, "_MEIPASS", ROOT)) / "planner" / "index.html")
+if getattr(sys, "frozen", False):
+    DATA_DIR = Path.home() / "AppData" / "Local" / "JinhoFishingAssistant"
+    PRIVATE_FILE = DATA_DIR / "outing_records.json"
+    PUBLIC_FILE = DATA_DIR / "outings.json"
+    CONFIG_FILE = DATA_DIR / "outing_config.json"
+else:
+    PRIVATE_FILE = ROOT / "outing_records.json"
+    PUBLIC_FILE = ROOT / "data" / "outings.json"
+    CONFIG_FILE = ROOT / "outing_config.json"
 HOST, PORT = "127.0.0.1", 8765
 UA = "JinhoFishingJournal/1.0 (outing helper)"
 
